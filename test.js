@@ -2,6 +2,7 @@ const express= require('express');
 const path=require('path');
 const nodemailer=require('nodemailer');
 const app=express();
+const bodyParser= require('body-parser');
 app.get('/', (req, res)=>{
   res.sendFile(path.join(__dirname,'index.html'));
 });
@@ -14,6 +15,9 @@ app.get('/contact', (req,res)=>{
 app.get('*',(req,res)=>{
   res.sendFile(path.join(__dirname,'404.html'));
 });
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 app.post('/sendmail',(req,res)=>{
   var transporter = nodemailer.createTransport({
     service: 'gmail',
